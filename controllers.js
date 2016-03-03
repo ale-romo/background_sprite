@@ -2,37 +2,37 @@ $(window).load(function(){
   setSpriteSize();
 });
 function setSpriteSize(){
-  // container width
-  var cw = $('#sprite-test').width();
-  var ch = $('#sprite-test').height();
-  // image width
-  var iw = 450;
-  // image height
-  var ih = 450;
-  // sprite width
-  var sw = 225;
-  // sprite height
-  var sh = 224;
-  // sprite background-position
-  var bpx = -225;
-  var bpy = -224;
-  // Ratios
-  ratioW = cw/sw;
-  ratioH = ch/sh;
-  // Calculador de altura para imágenes
-  if(ch==0){
-    $('#sprite-test').css('height', sh * ratioW);
+  // image dimensions.
+  var imgW = 450;
+  var imgH = 446;
+  // sprite dimensions.
+  var sprW = 225;
+  var sprH = 224;
+  // sprite background-position.
+  var posX = -225;
+  var posY = -224;
+  // Container dimensions.
+  var conW = $('#sprite-test').width();
+  var conH = $('#sprite-test').height();
+  // Ratio between the width of the container and the width of the sprite.
+  var ratio = conW/sprW;
+  // sets conH if it has not been specified.
+  if(conH == 0){
+    conH= sprH * ratio;
+    $('#sprite-test').css('height', conH);
   }
-
-  if(ratioH*sh<ratioW*sh){
-    $('#sprite-test').css('background-size', iw * ratioW);
-    var height_positioner = ((sh * ratioW) - $('#sprite-test').height())/2;
-    var height_position = bpy * ratioW - height_positioner;
-    $('#sprite-test').css('background-position', bpx * ratioW + " " + height_position);
-  } else{
-    $('#sprite-test').css('background-size', iw * ratioH);
-    var width_positioner = ((sh * ratioH) - $('#sprite-test').width())/2;
-    var width_position = bpx * ratioH - width_positioner;
-    $('#sprite-test').css('background-position', width_position + " " + bpy * ratioH);
+  // Calculates background-size based on the ratio.
+  $('#sprite-test').css('background-size', imgW * ratio);
+  //Adjust background position to comply with the new background size. This process depends on whether the height of the container is bigger than the new calculated height of the sprite.
+  if(conH < sprH * ratio){
+    var yDisplacement = (sprH * ratio - conH)/2;
+    posY = posY * ratio - yDisplacement;
+    $('#sprite-test').css('background-position', posX * ratio + ' ' + posY);
+  } else if(conH >= sprH * ratio){
+    var ratio2 = conH/sprH;
+    var xDisplacement = (sprW * ratio2 - conW)/2;
+    var posX = posX * ratio2 - xDisplacement;
+    $('#sprite-test').css('background-size', imgW * ratio2);
+    $('#sprite-test').css('background-position', posX + ' ' + posY * ratio2);
   }
 }
