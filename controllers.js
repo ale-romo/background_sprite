@@ -16,7 +16,11 @@ function setSpriteSize(){
   var conH = $('#sprite-test').height();
   // Ratio between the width of the container and the width of the sprite.
   var ratio = conW/sprW;
-  // sets conH if it has not been specified.
+  // sets container dimensions if they have not been specified.
+  if(conW == 0){
+    conW= sprW * ratio;
+    $('#sprite-test').css('height', conW);
+  }
   if(conH == 0){
     conH= sprH * ratio;
     $('#sprite-test').css('height', conH);
